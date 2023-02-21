@@ -1,8 +1,10 @@
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
+
 import PhoneBlock from './PhoneBlock/PhoneBlock';
 import ContactList from './ContactList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
+
 import css from './phone-book.module.scss';
 
 class PhoneBook extends Component {
@@ -10,6 +12,24 @@ class PhoneBook extends Component {
     contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('book-contacts'));
+
+    if (contacts?.length) {
+      //contacts && contacts.length
+      this.setState({
+        contacts,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { contacts } = this.state;
+    if (contacts.length !== prevState.contacts.length) {
+      localStorage.setItem('book-contacts', JSON.stringify(contacts));
+    }
+  }
 
   onAddContacts = ({ name, number }) => {
     if (this.isDublicate({ name, number })) {
@@ -53,9 +73,9 @@ class PhoneBook extends Component {
   getFilteredNumbers() {
     const { contacts, filter } = this.state;
 
-    // if (filter.length < 1) {
-    //   return contacts;
-    // }
+    if (!filter) {
+      return contacts;
+    }
 
     const normalizedFilter = filter.toLowerCase();
     const result = contacts.filter(({ name, number }) => {
