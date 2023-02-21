@@ -13,5 +13,6 @@ const PhoneBlock = ({ title, children }) => {
 export default PhoneBlock;
 
 PhoneBlock.propTypes = {
+  children: PropTypes.node,
   title: PropTypes.string.isRequired,
 };

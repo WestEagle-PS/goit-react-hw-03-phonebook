@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import PhoneBlock from './PhoneBlock/PhoneBlock';
 import ContactList from './ContactList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
@@ -52,15 +51,17 @@ class PhoneBook extends Component {
   }
 
   getFilteredNumbers() {
-    const { filter, contacts } = this.state;
+    const { contacts, filter } = this.state;
 
     // if (filter.length < 1) {
     //   return contacts;
     // }
 
     const normalizedFilter = filter.toLowerCase();
-    const result = contacts.filter(({ name }) => {
-      return name.toLowerCase().includes(normalizedFilter);
+    const result = contacts.filter(({ name, number }) => {
+      return (
+        name.toLowerCase().includes(normalizedFilter) || number.includes(filter)
+      );
     });
 
     return result;
@@ -97,13 +98,3 @@ class PhoneBook extends Component {
 }
 
 export default PhoneBook;
-
-PhoneBook.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.number.isRequired,
-    })
-  ),
-  filter: PropTypes.string,
-};
