@@ -1,10 +1,8 @@
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
-
 import PhoneBlock from './PhoneBlock/PhoneBlock';
 import ContactList from './ContactList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
-
 import css from './phone-book.module.scss';
 
 class PhoneBook extends Component {
